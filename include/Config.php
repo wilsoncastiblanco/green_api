@@ -11,25 +11,10 @@
 	 define('DB_HOST', 'localhost');
 	 define('DB_NAME', 'staunimovil');
 	/**
-	 * Database configuration - Wilson
+	 * Database configuration - tengounasolucion
 	 */
-	//define('DB_USERNAME', 'root');
-	//define('DB_PASSWORD', 'decipher10');
-	//define('DB_HOST', 'localhost');
-	//define('DB_NAME', 'staunimovil');
-	/**
-	 * Database configuration - Hostinger
-	 */
-	// define('DB_USERNAME', 'u702620125_staum');
-	// define('DB_PASSWORD', 'staunimovil');
-	// define('DB_HOST', 'mysql.hostinger.es');
-	// define('DB_NAME', 'u702620125_staum');		
-	/**
-	 * Database configuration - Jeisson Hosting
-	 */
-
-	// define('DB_USERNAME', 'dbStaunimovilusr');
-	// define('DB_PASSWORD', 'asdf1234$1');
-	// define('DB_HOST', 'localhost');
-	// define('DB_NAME', 'dbStaunimovil');
+	//define('DB_USERNAME', 'u910126_green');
+	//define('DB_PASSWORD', 'nwUcMle!](8^');
+	//define('DB_HOST', '23.229.231.70');
+	//define('DB_NAME', 'green');
 ?>
