@@ -9,7 +9,7 @@
 	 define('DB_USERNAME', 'root');
 	 define('DB_PASSWORD', '123456');
 	 define('DB_HOST', 'localhost');
-	 define('DB_NAME', 'staunimovil');
+	 define('DB_NAME', 'green');
 	/**
 	 * Database configuration - tengounasolucion
 	 */
