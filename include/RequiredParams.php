@@ -1,5 +1,11 @@
 <?php
 	/**
+	 * Recolection points
+	 */
+	$recolection_points_params = array('latitude', 'longitude','unit', 'distance','limit');
+	define('RECOLECTION_POINTS_PARAMS', serialize($recolection_points_params));
+
+	/**
 	 * Table estudiantes
 	 */
 	$get_student_by_code = array('code_student'=>'code_student');

@@ -51,22 +51,42 @@ function authenticate(\Slim\Route $route) {
 
 /**
  * ---------- GET STUDENT ---------
- * @name Get Student
+ * @name Get recolection points
  * @method POST
- * @link /get_student
+ * @link /get_recolection_points
  */
-$app->post(GET_POINTS, function() use ($app){
-    $recolection_points_model = new student_model();
-    $result = $recolection_points_model->get_recolection_points();
+$app->post(GET_RECOLECTION_POINTS, function() use ($app){
+    /**check for required params**/
+    $recolectionPointsParams = unserializeParams(RECOLECTION_POINTS_PARAMS);
+    verifyRequiredParams($recolectionPointsParams);
+    /**Variables*/
+    $latitude   = $app->request->post('latitude');
+    $longitude  = $app->request->post('longitude');
+    $unit       = $app->request->post('unit');
+    $distance   = $app->request->post('distance');
+    $limit      = $app->request->post('limit');
+    /**Instance**/
+    $recolection_points_model = new recolection_points_model();
+    $result = $recolection_points_model->get_recolection_points($latitude, $longitude, $unit, $distance, $limit);
+
     if(count($result) > 0){
-        $response["error"] = false;
-        $response[$object] = $result;
-        
+        $response['status'] = 'success';
+        $response['total_records'] = count($result);
+        $response['data'] = $result;
     }else{
-        $response["error"] = true;
-        $response["message"] = "There aren't recolection points available";
+        $response['status'] = 'error';
+        $response['message'] = "There aren't recolection points available";
     }
+    echoRespnse(201, $response);
 });
+
+
+
+
+
+
+
+
 /** ----------------- ADD RECOLECTION POINTS ---- ****/
 
 /**
@@ -81,7 +101,7 @@ $app->post(GET_POINTS, function() use ($app){
  *          usua_id
  * @link - /add_recolection_points
  */
-$app->post(ADD_RECOLECTION_POINTS, function() use ($app){
+$app->post(ADD_REQUEST_DOCUMENTS, function() use ($app){
         $documents  = $app->request()->getBody();
         $values     = json_decode($documents, true);
 

@@ -2,7 +2,7 @@
 	/**
 	 * Get location points
 	 */
-	define('GET_POINTS', '/get_points')
+	define('GET_RECOLECTION_POINTS', '/get_recolection_points');
 	/**
 	 * Request Documents
 	 */
