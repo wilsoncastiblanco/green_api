@@ -1,5 +1,9 @@
 <?php
 	/**
+	 * Get location points
+	 */
+	define('GET_POINTS', '/get_points')
+	/**
 	 * Request Documents
 	 */
 	define('GET_DOCUMENTS', '/get_documents');

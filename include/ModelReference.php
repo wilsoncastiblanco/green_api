@@ -6,6 +6,10 @@
 	/**
 	 * Models
 	 */
+	require_once './../models/recolection_points_model.php';
+	
+
+	
 	require_once './../models/documents_model.php';
 	require_once './../models/student_model.php';
 	require_once './../models/login_model.php';	

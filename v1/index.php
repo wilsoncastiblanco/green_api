@@ -55,18 +55,88 @@ function authenticate(\Slim\Route $route) {
  * @method POST
  * @link /get_student
  */
-$app->post(GET_STUDENT, function() use ($app){
-    $array_fields_student = unserializeParams(REQUIRED_GET_STUDENT);
-    // check for required params
-    verifyRequiredParams($array_fields_student);
-
-    $code_student = $app->request->post($array_fields_student['code_student']);
-
-    $student_model = new student_model();
-    $result = $student_model->get_student_by_code($code_student);
-
-    print_response($result,"El código o identificación del estudiante es errado, por favor verifique", 200, "student");
+$app->post(GET_POINTS, function() use ($app){
+    $recolection_points_model = new student_model();
+    $result = $recolection_points_model->get_recolection_points();
+    if(count($result) > 0){
+        $response["error"] = false;
+        $response[$object] = $result;
+        
+    }else{
+        $response["error"] = true;
+        $response["message"] = "There aren't recolection points available";
+    }
 });
+/** ----------------- ADD RECOLECTION POINTS ---- ****/
+
+/**
+ * Add recolection points
+ * method POST
+ * params - docu_id
+ *          esol_id   
+ *          estu_codigo
+ *          sdoc_descripcion
+ *          sdoc_fechaentrega
+ *          sdoc_fecharadicado
+ *          usua_id
+ * @link - /add_recolection_points
+ */
+$app->post(ADD_RECOLECTION_POINTS, function() use ($app){
+        $documents  = $app->request()->getBody();
+        $values     = json_decode($documents, true);
+
+        foreach ($values as $value) {
+            $docu_id            = $value['docu_id'];
+            $esol_id            = $value['esol_id'];
+            $sdoc_descripcion   = $value['sdoc_descripcion'];
+            $estu_codigo        = $value['estu_codigo'];
+            $sdoc_fechaentrega  = $value['sdoc_fechaentrega'];
+            $sdoc_fecharadicado = $dateTime;
+            $usua_id            = $value['usua_id'];  
+
+            $request_documents_model = new request_documents_model();
+            $result  = $request_documents_model->get_request_documents_by_student_doc($estu_codigo, $docu_id);
+            $success = 0;
+            if (empty($result["namedoc"])){
+                $success++;
+                $result   = $request_documents_model->add_request_documents($sdoc_id, $docu_id, $esol_id, $estu_codigo, $sdoc_descripcion, $sdoc_fechaentrega, $sdoc_fecharadicado, $usua_id);
+                $document = $request_documents_model->get_request_documents_by_student_doc($estu_codigo, $docu_id);
+                if ($result) {
+                    $student_model= new student_model();
+                    $student_mail=$student_model->get_student_by_code($estu_codigo);
+                    if(!empty($student_mail[0]["estu_correo"])){
+                        sendmail($student_mail[0]["estu_correo"],1, $sdoc_id,'', $estu_codigo, $sdoc_descripcion, $gasi_id, $docu_id);
+                    }
+
+                    $info = array("docuDescription" => $document['namedoc'],
+                                  "docuMessage"     => "se solicitó correctamente !");
+                    $messages[] = array_map('stripslashes',$info);
+                } else {
+                    $info = array("docuDescription" => $document['namedoc'],
+                                  "docuMessage"     => "no fue solicitado, inténtelo de nuevo !");
+                    $messages[] = array_map('stripslashes',$info);
+                }
+            }else{
+                $info = array("docuDescription" => $result["namedoc"],
+                              "docuMessage"     => "ya fue solicitado anteriormente");
+                $messages[] = array_map('stripslashes',$info);
+            }
+        }
+        $response["message"]  = $messages;
+        $response["sequence"] = $sequence;
+        $response["error"]    = $success;
+        echoRespnse(200, $response);
+});
+
+
+
+
+
+
+
+
+
+
 
 /**
  * ---------- LOGIN ---------
