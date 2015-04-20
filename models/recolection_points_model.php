@@ -33,8 +33,10 @@
 				HAVING distance < {$distance}
 				ORDER BY distance 
 				LIMIT 0 , {$limit}";
-
 		$result = $this->conn->query($sql);
+		if(!$result) {
+		    die("Database query failed: " . mysql_error());
+		}
 	    if ($result->num_rows > 0) {
 	    	$rows = array();
 			while($row = $result->fetch_assoc()) {

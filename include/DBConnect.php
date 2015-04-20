@@ -24,7 +24,7 @@ class DbConnect {
         mysqli_set_charset($this->conn,'utf8');// No borrar esta línea
         // Check for database connection error
         if (mysqli_connect_errno()) {
-            echo "La conexión a la base de datos ha fallado" . mysqli_connect_error();
+            echo "La conexión a la base de datos ha fallado " . mysqli_connect_error();
             exit();
         }
         // returing connection resource
