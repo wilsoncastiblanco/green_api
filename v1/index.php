@@ -58,13 +58,15 @@ function authenticate(\Slim\Route $route) {
 $app->post(GET_RECOLECTION_POINTS, function() use ($app){
     /**check for required params**/
     $recolectionPointsParams = unserializeParams(RECOLECTION_POINTS_PARAMS);
-    verifyRequiredParams($recolectionPointsParams);
+    //verifyRequiredParams($recolectionPointsParams, $app, $value);
     /**Variables*/
-    $latitude   = $app->request->post('latitude');
-    $longitude  = $app->request->post('longitude');
-    $unit       = $app->request->post('unit');
-    $distance   = $app->request->post('distance');
-    $limit      = $app->request->post('limit');
+    $body = $app->request->getBody();
+    $data = json_decode($body);
+    $latitude   = $data->latitude;
+    $longitude  = $data->longitude;
+    $unit       = $data->unit;
+    $distance   = $data->distance;
+    $limit      = $data->limit;
     /**Instance**/
     $recolection_points_model = new recolection_points_model();
     $result = $recolection_points_model->get_recolection_points($latitude, $longitude, $unit, $distance, $limit);
@@ -1380,7 +1382,7 @@ $app->post(GET_STUDENT_SCHEDULE, function() use ($app){
 /**
  * Verifying required params posted or not
  */
-function verifyRequiredParams($required_fields) {
+function verifyRequiredParams($required_fields, $app, $postvars) {
     $error = false;
     $error_fields = "";
     $request_params = array();
@@ -1396,14 +1398,13 @@ function verifyRequiredParams($required_fields) {
             $error_fields .= $field . ', ';
         }
     }
- 
     if ($error) {
         // Required field(s) are missing or empty
         // echo error json and stop the app
         $response = array();
         $app = \Slim\Slim::getInstance();
         $response["status"] = "error";
-        $response["message"] = json_encode($_POST).' ---------> Required field(s) ' . substr($error_fields, 0, -2) . ' is missing or empty';
+        $response["message"] = 'Required field(s) ' . substr($error_fields, 0, -2) . ' is missing or empty';
         echoRespnse(400, $response);
         $app->stop();
     }
