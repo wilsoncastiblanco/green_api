@@ -2,8 +2,8 @@
 	/**
 	 * Recolection points
 	 */
-	$recolection_points_params = array('latitude', 'longitude','unit', 'distance','limit');
-	define('RECOLECTION_POINTS_PARAMS', serialize($recolection_points_params));
+	$recollection_points_params = array('latitude', 'longitude','unit', 'distance','limit');
+	define('RECOLLECTION_POINTS_PARAMS', serialize($recollection_points_params));
 
 	/**
 	 * Table estudiantes

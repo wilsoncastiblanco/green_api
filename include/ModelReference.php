@@ -6,7 +6,7 @@
 	/**
 	 * Models
 	 */
-	require_once './../models/recolection_points_model.php';
+	require_once './../models/recollection_points_model.php';
 	
 
 	

@@ -55,9 +55,9 @@ function authenticate(\Slim\Route $route) {
  * @method POST
  * @link /get_recolection_points
  */
-$app->post(GET_RECOLECTION_POINTS, function() use ($app){
+$app->post(GET_RECOLLECTION_POINTS, function() use ($app){
     /**check for required params**/
-    $recolectionPointsParams = unserializeParams(RECOLECTION_POINTS_PARAMS);
+    $recolectionPointsParams = unserializeParams(RECOLLECTION_POINTS_PARAMS);
     //verifyRequiredParams($recolectionPointsParams, $app, $value);
     /**Variables*/
     $body = $app->request->getBody();
@@ -68,8 +68,8 @@ $app->post(GET_RECOLECTION_POINTS, function() use ($app){
     $distance   = $data->distance;
     $limit      = $data->limit;
     /**Instance**/
-    $recolection_points_model = new recolection_points_model();
-    $result = $recolection_points_model->get_recolection_points($latitude, $longitude, $unit, $distance, $limit);
+    $recollection_points_model = new recollection_points_model();
+    $result = $recollection_points_model->get_recollection_points($latitude, $longitude, $unit, $distance, $limit);
 
     if(count($result) > 0){
         $response['status'] = 'success';
